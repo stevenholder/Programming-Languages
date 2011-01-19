@@ -17,6 +17,10 @@ class Graph
    end
    
    def edge source, destination
+     if source >= array.size or destination >= array.size
+       puts "The edge could not be created because it doesn't exist in the graph."
+       return
+     end
      array[source].push(destination)
      array[destination].push(source)
    end
@@ -66,7 +70,6 @@ class Graph
        puts "No triangle contains #{vertex1} and #{vertex2}"
      end
    end
-   
 end
 
 def graph name 
@@ -116,9 +119,3 @@ edge? 3,4
 edge? 2,3
 inTriangle? 1, 2
 inTriangle? 0, 4
-
-
-
-
-
-  

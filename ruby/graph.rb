@@ -1,3 +1,4 @@
+#Steven Holder
 require 'singleton'
 class Graph
   include Singleton
@@ -9,11 +10,7 @@ class Graph
    end
    
    def vertices number
-     i = 0
-     while i < number
-       array.push([])
-       i = i+1
-     end
+     number.times {array << []}
    end
    
    def edge source, destination

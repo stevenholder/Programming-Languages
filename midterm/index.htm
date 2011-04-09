@@ -1,0 +1,141 @@
+<html>
+<head>
+	<title>Ruby Regular Expressions</title>
+	<link rel="stylesheet" href="style.css" type="text/css" media="screen"  charset="utf-8">
+</head>
+<body>
+<div id="container">
+<h1>Ruby Regular Experssion Tutorial</h1>
+<h4>By: Steven Holder</h4>
+<p>Regular expressions are a powerful language for matching text patterns that extends much beyond the scope of this introductory tutorial. This tutorial will show how regular expressions function in Ruby.</p>
+
+<p>During this tutorial, we will use the Ruby interpreter to test our code and verify that it is working.</p>
+
+<p>To perform a regular expression in Ruby you can use a series of metacharacters to represent a pattern or you can use a literal which is a pattern between slashes.</p>
+
+<h3>Syntax</h3>
+<pre>
+/pattern/
+/pattern/im     #options
+%r!/usr/local!  #general delimited regular expression
+</pre>
+
+<h3>Example</h3>
+<pre>
+>> string = "This has some text in it"
+=> string
+>> string =~ /some/
+=> 9
+>> string =~ /soe/
+=> nil
+>> string =~ /s/
+=> 3
+</pre>
+
+<p>The previous example uses the =~ operator to search a string for a pattern and returns the index of the first match of the pattern in the string.</p>
+
+<h3>Modifiers</h3>
+<table>
+	<tr>
+		<th>Modifier</th>
+		<th>Description</th>
+	</tr>
+	<tr>
+		<td>i</td>
+		<td>Ignore case.</td>
+	</tr>
+	<tr>
+		<td>o</td>
+		<td>Perform #{} interpolations only once, when the regexp literal is evaluated.</td>
+	</tr>
+	<tr>
+		<td>x</td>
+		<td>Ignores whitespace and allows commends</td>
+	</tr>
+	<tr>
+		<td>m</td>
+		<td>Matches multiple lines, recognizes newlines as normal characters</td>
+	</tr>
+	<tr>
+		<td>u,e,s,n</td>
+		<td>Interpret the regexp as Unicode (UTF-8), EUC, SJIS, or ASCII. If none of these modifiers is specified, the regular expression is assumed to use the source encoding.</td>
+	</tr>
+</table>
+
+<h3>Basic Patterns</h3>
+<table>
+	<tr><th>Pattern</th><th>Description</th></tr>
+	<tr><td>^</td><td>Starts a line</td></tr>
+	<tr><td>$</td><td>Ends a line</td></tr>
+	<tr><td>/literal/</td><td>Matches "literal"</td></tr>
+	<tr><td>.</td><td>Matches any character</td></tr>
+	<tr><td>[...]</td><td>Matches any single character in brackets</td></tr>
+	<tr><td>[^...]</td><td>Matches any single character not in brackets</td></tr>
+	<tr><td>*</td><td>Matches 0 or more occurrences</td></tr>
+	<tr><td>+</td><td>Matches 1 or more occurrences</td></tr>
+	<tr><td>?</td><td>Matches 0 or 1 occurrences</td></tr>
+	<tr><td>{n}</td><td>Matches exactly n occurrences</td></tr>
+	<tr><td>a|b</td><td>Matches either a or b</td></tr>
+	<tr><td>(re)</td><td>Groups regular expressions</td></tr>
+	<tr><td>(?imx)</td><td>Temporarily toggles on i, m, or x</td></tr>
+	<tr><td>(?-imx)</td><td>Temporarily toggles off i, m, or x</td></tr>
+	<tr><td>\w</td><td>Matches word characters</td></tr>
+	<tr><td>\W</td><td>Matches nonword characters</td></tr>
+	<tr><td>\s</td><td>Matches whitespace</td></tr>
+	<tr><td>\S</td><td>Matches nonwhitespace</td></tr>
+	<tr><td>\d</td><td>Matches digits</td></tr>
+	<tr><td>\D</td><td>Matches nondigits</td></tr>
+	<tr><td>\A</td><td>Matches beginning of string</td></tr>
+	<tr><td>\Z</td><td>Matches end of string, if newline exists, matches just before the newline</td></tr>
+	<tr><td>\z</td><td>Matches end of string</td></tr>
+	<tr><td>\G</td><td>Matches point where last match finished</td></tr>
+</table>
+
+<h3>Example Patterns (Character Classes)</h3>
+<p>A character class is an explicit list of characters, placed inside the regular expression in square brackets</p>
+<table>
+	<tr><th>Example</th><th>Description</th></tr>
+	<tr><td>/[Rr]uby/</td><td>Matches "ruby" or "Ruby"</td></tr>
+	<tr><td>/[0-9]/</td><td>Matches an digit same as [0123456789]</td></tr>
+	<tr><td>/[a-z]/</td><td>Matches any lowercase letter</td></tr>
+	<tr><td>/[A-Z]/</td><td>Matches any uppercase letter</td></tr>
+	<tr><td>/[A-Za-z0-9]/</td><td>Matches any of the previous 3</td></tr>
+	<tr><td>/[^aeiou]/</td><td>Matches anything other than a lowercase vowel</td></tr>
+</table>
+
+<h3>Matching patterns</h3>
+
+<p>You can use the <b>.match(/regexp/)</b> method on a string and it will return a MatchData object on a successful match an nil on a failure. Every match will either succeed or fail.</p>
+
+<p>Unlike nil, the MatchData object returned by a successful match has a Boolean value of true, which makes it handy for simple match/no-match tests. Beyond this, however, it also stores information about the match, which you can pry out of them with the appropriate methods: where the match began (at what character in the string), how much of the string it covered, what was captured in the parenthetical groups, and so forth.</p>
+
+<p>To use the MatchData object, you must first save it. Consider an example where we want to retrieve a phone number from a string and save the various parts of it (area code, exchange, number) in groupings.</p>
+
+<pre>
+string = "A phone number is (123) 555-1234."  
+pattern = /\((\d{3})\)\s+(\d{3})-(\d{4})/  
+m = string.match(pattern)
+puts m[0]
+</pre>
+
+<p>Here is the output:</p>
+<pre>(123) 555-1234</pre>
+
+<h3>Searching and replacing</h3>
+
+<p>You already know that you can use regular expressions to find patterns in a string but you can also use the sub and gsub (and the in-place versions sub! and gsub!) String methods to find and replace at the same time. Remember that methods with the bang syntax (!) means that they will modify the existing data rather than making a copy and changing that copy. Consider the following example where we remove comments from a phone number.</p>
+
+<pre>
+#This will remove ruby-style comments
+number = "706-123-4567 #A phone number"
+number = number.sub!(/#.*$/, "")
+puts "Number : #{number}"
+</pre>
+
+<p>Here is the output:</p>
+<pre>Number : 706-123-4567</pre>
+
+<p>This should be a sufficient introduction to regular expressions in ruby, where the concept is very simple but the applications can be more complex than you can imagine.</p>
+</div>
+</body>
+</html>
